@@ -1,8 +1,7 @@
-# wtf 3000
+# usage: wtf 3000
 wtf() { 
   local port="${1:-3000}" 
   
-  # Try multiple approaches
   if lsof -i "tcp:$port" 2>/dev/null; then 
     return 0
   elif netstat -tlnp 2>/dev/null | grep ":$port "; then
