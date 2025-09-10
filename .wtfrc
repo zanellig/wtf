@@ -1,0 +1,18 @@
+# wtf 3000
+wtf() { 
+  local port="${1:-3000}" 
+  
+  # Try multiple approaches
+  if lsof -i "tcp:$port" 2>/dev/null; then 
+    return 0
+  elif netstat -tlnp 2>/dev/null | grep ":$port "; then
+    echo "Found process on port $port (via netstat)"
+    return 0
+  elif ss -tlnp 2>/dev/null | grep ":$port "; then
+    echo "Found process on port $port (via ss)"
+    return 0
+  else 
+    echo "No process is running on port $port" 
+    return 1 
+  fi 
+}
